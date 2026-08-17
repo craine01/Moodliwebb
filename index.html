@@ -148,12 +148,5 @@ ing: 80px 8%; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-it
                     } else { counter.innerText = target + "+"; }
                 };
                 updateCount();
-            });
-        };
-        const observer = new IntersectionObserver((entries) => {
-            if(entries[0].isIntersecting) { startCounters(); observer.disconnect(); }
-        }, { threshold: 0.5 });
-        observer.observe(document.querySelector('.stats-section'));
-    </script>
 </body>
 </html>
