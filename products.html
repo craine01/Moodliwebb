@@ -56,11 +56,7 @@
         });
 
         // FILTER LOGIC
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const productCards = document.querySelectorAll('.product-card');
-
-        filterBtns.forEach(btn => {
-                const filterValue = btn.getAttribute('data-filter');
+        const filterBtns = document.querySelectoe('data-filter');
 
                 productCards.forEach(card => {
                     if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
