@@ -72,11 +72,6 @@
         const productCards = document.querySelectorAll('.product-card');
 
         filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons and add to clicked one
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
                 const filterValue = btn.getAttribute('data-filter');
 
                 productCards.forEach(card => {
