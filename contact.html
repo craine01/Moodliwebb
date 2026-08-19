@@ -1,1 +1,222 @@
-t>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Moodli</title>
+    <style>
+        :root {
+            --forest-green: #264B29;
+            --forest-green-light: #35663a;
+            --pale-cream: #FFF9E1;
+            --white: #ffffff;
+            --text-muted: #4a4a4a;
+            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--pale-cream); color: var(--forest-green); line-height: 1.6; overflow-x: hidden; }
+
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--forest-green);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        /* Consistent Header */
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 249, 225, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 1100;
+            transition: box-shadow 0.4s var(--ease-smooth), backdrop-filter 0.4s var(--ease-smooth), padding 0.4s var(--ease-smooth);
+        }
+        header.scrolled { box-shadow: 0 8px 30px rgba(38,75,41,0.08); backdrop-filter: blur(12px); padding: 14px 5%; }
+        .logo img { height: 40px; transition: transform 0.4s var(--ease-smooth); }
+        .logo:hover img { transform: scale(1.05) rotate(-2deg); }
+        .nav-links { display: flex; list-style: none; gap: 25px; }
+        .nav-links a { text-decoration: none; color: var(--forest-green); font-weight: 500; font-size: 0.9rem; position: relative; padding-bottom: 4px; }
+        .nav-links a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 2px; background: var(--forest-green); transition: width 0.35s var(--ease-smooth); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a.active { font-weight: 700; }
+
+        /* Hamburger Icon */
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; z-index: 1200; }
+        .hamburger span { display: block; width: 25px; height: 3px; background: var(--forest-green); border-radius: 3px; transition: transform 0.4s var(--ease-smooth), opacity 0.3s ease; }
+
+        /* Contact Main Content */
+        .contact-hero { text-align: center; padding: 60px 10% 20px; }
+        .contact-hero h1 { font-size: 3.5rem; margin-bottom: 20px; }
+        .contact-main { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; max-width: 1100px; margin: 20px auto 60px; padding: 0 5%; align-items: start; }
+        .contact-image-side img {
+            width: 100%;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 20px 45px -12px rgba(38,75,41,0.2);
+            transition: transform 0.6s var(--ease-smooth);
+        }
+        .contact-image-side img:hover { transform: scale(1.02); }
+
+        .social-row { display: flex; gap: 15px; margin-top: 12px; }
+        .social-btn {
+            background: var(--forest-green);
+            width: 42px; height: 42px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s var(--ease-smooth), background 0.3s ease;
+        }
+        .social-btn:hover { transform: translateY(-5px) scale(1.08); box-shadow: 0 12px 24px rgba(38,75,41,0.3); background: var(--forest-green-light); }
+
+        /* Form */
+        form {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 25px;
+            display: grid;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(38,75,41,0.04);
+            transition: box-shadow 0.5s var(--ease-smooth);
+        }
+        form:hover { box-shadow: 0 20px 45px rgba(38,75,41,0.08); }
+        input, textarea {
+            padding: 14px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            background: #fafafa;
+            outline: none;
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+        input:focus, textarea:focus {
+            border-color: var(--forest-green);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(38,75,41,0.08);
+        }
+        .btn-submit {
+            background: var(--forest-green);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: transform 0.45s var(--ease-smooth), box-shadow 0.45s var(--ease-smooth), background 0.3s ease;
+            box-shadow: 0 4px 14px rgba(38,75,41,0.2);
+        }
+        .btn-submit:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(38,75,41,0.3); background: var(--forest-green-light); }
+        .btn-submit:active { transform: translateY(-1px) scale(0.98); }
+
+        /* Footer */
+        footer { background: var(--forest-green); color: var(--pale-cream); padding: 40px 8% 20px; margin-top: 80px; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 20px; max-width: 1100px; margin: 0 auto; }
+        .footer-col a { color: var(--pale-cream); text-decoration: none; display: block; font-size: 0.8rem; opacity: 0.8; margin-bottom: 5px; transition: opacity 0.3s ease, transform 0.3s ease; }
+        .footer-col a:hover { opacity: 1; transform: translateX(3px); }
+        .footer-bottom { margin-top: 30px; opacity: 0.4; font-size: 0.7rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+        }
+
+        /* MOBILE REVISIONS */
+        @media (max-width: 850px) {
+            header { padding: 15px 8%; }
+            header.scrolled { padding: 12px 8%; }
+            .hamburger { display: flex; }
+            .nav-links {
+                position: fixed; top: 0; right: -100%; height: 100vh; width: 70%;
+                background: var(--pale-cream); flex-direction: column;
+                justify-content: center; align-items: center; transition: right 0.5s var(--ease-smooth);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            }
+            .nav-links.active { right: 0; }
+            .contact-main { grid-template-columns: 1fr; }
+            .contact-hero h1 { font-size: 2.5rem; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header id="site-header">
+    <a href="index.html" class="logo"><img src="https://i.imgur.com/90g68Rc.jpg" alt="Moodli"></a>
+    <div class="hamburger" id="hamburger" role="button" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </div>
+    <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="community.html">Community</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+</header>
+
+<main>
+    <section class="contact-hero">
+        <h1 class="reveal-up">Contact Us</h1>
+        <p class="reveal-up">We'd love to hear from you. Send us a message or follow our journey online.</p>
+    </section>
+
+    <div class="contact-main">
+        <div class="contact-image-side reveal-left">
+            <img src="https://i.imgur.com/dpjxdWR.jpg" alt="Moodli Moodboard">
+            <div style="margin-top: 25px;">
+                <p><strong>Follow our socials:</strong></p>
+                <div class="social-row">
+                    <a href="https://www.instagram.com/moodlicore/" class="social-btn"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849s-.011 3.585-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.849-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849s.012-3.584.07-4.849c.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                    <a href="https://www.facebook.com/profile.php?id=61581735011163" class="social-btn"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
+                    <a href="https://www.tiktok.com/@moodlicore" class="social-btn"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.89-.39-2.82-.14-1.49.4-2.62 1.77-2.73 3.29-.02.4-.01.8.02 1.2.19 1.17.9 2.25 1.9 2.85.82.53 1.8.71 2.76.52 1.2-.19 2.21-1.13 2.56-2.3.09-.58.12-1.17.12-1.75-.02-4.34-.02-8.68-.02-13.02z"/></svg></a>
+                </div>
+            </div>
+        </div>
+
+        <form action="https://formspree.io/f/mpqqwwly" method="POST" class="reveal-right">
+            <h2 style="margin-bottom: 10px;">Get in Touch</h2>
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit" class="btn-submit">Send Message</button>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-col">
+            <h3>Moodli</h3>
+            <p>Handmade keychains celebrating self-expression.</p>
+        </div>
+        <div class="footer-col">
+            <h5>Get in Touch</h5>
+            <a href="mailto:moodlicore@gmail.com">moodlicore@gmail.com</a>
+            <p>0936-943-3099</p>
+        </div>
+        <div class="footer-col">
+            <h5>Connect</h5>
+            <a href="https://www.instagram.com/moodlicore/" target="_blank">Instagram</a>
+            <a href="https://www.facebook.com/profile.php?id=61581735011163" target="_blank">Facebook</a>
+            <a href="https://www.tiktok.com/@moodlicore?_r=1&_t=ZS-9323zbw775u" target="_blank">TikTok</a>
+        </div>
+        <div class="footer-col">
+            <h5>Legal</h5>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms</a>
+            <a href="#">Transparency</a>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2025 Moodli. All Rights Reserved.</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="site.js"></script>
+</body>
+</html>
+
