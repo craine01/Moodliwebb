@@ -1,31 +1,422 @@
- 
-       
-         
-            <p>Handmade keychains celebrating self-expression.</p>
-        </div>
-        <div class="footer-col">
-            <h5>Get in Touch</h5>
-            <a href="mailto:moodlicore@gmail.com">moodlicore@gmail.com</a>
-            <p>0936-943-3099</p>
-        </div>
-        <div class="footer-col">
-            <h5>Connect</h5>
-            <a href="https://www.instagram.com/moodlicore/" target="_blank">Instagram</a>
-            <a href="https://www.facebook.com/profile.php?id=61581735011163" target="_blank">Facebook</a>
-            <a href="https://www.tiktok.com/@moodlicore?_r=1&_t=ZS-9323zbw775u" target="_blank">TikTok</a>
-        </div>
-        <div class="footer-col">
-            <h5>Legal</h5>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms</a>
-            <a href="#">Transparency</a>
-        </div>
-    </div>
-    <div class="footer-bottom">© 2025 Moodli. All Rights Reserved.</div>
-</footer>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moodli | Express Your Mood</title>
+    <style>
+        :root {
+            --forest-green: #264B29;
+            --forest-green-light: #35663a;
+            --pale-cream: #FFF9E1;
+            --white: #ffffff;
+            --text-muted: #4a4a4a;
+            --soft-barrier: #FFF5F0;
+            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--pale-cream); color: var(--forest-green); overflow-x: hidden; line-height: 1.6; }
 
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--forest-green);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        /* ANIMATION UTILITY CLASSES */
+        .reveal-up, .reveal-left, .reveal-right, .reveal-scale {
+            opacity: 0;
+            transition: transform 0.8s var(--ease-smooth), opacity 0.8s var(--ease-smooth);
+            will-change: transform, opacity;
+        }
+        .reveal-up { transform: translateY(40px); }
+        .reveal-left { transform: translateX(-40px); }
+        .reveal-right { transform: translateX(40px); }
+        .reveal-scale { transform: scale(0.9); }
+
+        .reveal-up.is-visible, 
+        .reveal-left.is-visible, 
+        .reveal-right.is-visible, 
+        .reveal-scale.is-visible {
+            opacity: 1;
+            transform: translate(0) scale(1);
+        }
+
+        /* HEADER */
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 249, 225, 0.9);
+            backdrop-filter: blur(0px);
+            position: sticky;
+            top: 0;
+            z-index: 1100;
+            transition: box-shadow 0.4s var(--ease-smooth), backdrop-filter 0.4s var(--ease-smooth), padding 0.4s var(--ease-smooth);
+        }
+        header.scrolled {
+            box-shadow: 0 8px 30px rgba(38, 75, 41, 0.08);
+            backdrop-filter: blur(12px);
+            padding: 14px 5%;
+        }
+        .logo img { height: 40px; transition: transform 0.4s var(--ease-smooth); }
+        .logo:hover img { transform: scale(1.05) rotate(-2deg); }
+        .nav-links { display: flex; list-style: none; gap: 25px; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--forest-green);
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: var(--forest-green);
+            transition: width 0.35s var(--ease-smooth);
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a.active { font-weight: 700; }
+
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; z-index: 1200; }
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: var(--forest-green);
+            border-radius: 3px;
+            transition: transform 0.4s var(--ease-smooth), opacity 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        /* HERO */
+        .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 60px 8%; align-items: center; min-height: 80vh; }
+        .hero-text h1 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 20px; }
+        .hero-text p { max-width: 480px; }
+        .hero-image img {
+            width: 100%;
+            border-radius: 20px;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            box-shadow: 0 25px 60px -15px rgba(38, 75, 41, 0.35);
+            transition: transform 0.6s var(--ease-smooth);
+        }
+        .hero-image img:hover { transform: scale(1.02) rotate(0.5deg); }
+
+        .btn { padding: 14px 30px; border-radius: 8px; text-decoration: none; font-weight: 700; display: inline-block; margin-top: 20px; cursor: pointer; border: none; font-size: 0.95rem; }
+        .btn-primary {
+            background: var(--forest-green);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.45s var(--ease-smooth), box-shadow 0.45s var(--ease-smooth), background 0.3s ease;
+            box-shadow: 0 4px 14px rgba(38, 75, 41, 0.2);
+        }
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px rgba(38, 75, 41, 0.3);
+            background: var(--forest-green-light);
+        }
+        .btn-primary:active { transform: translateY(-1px) scale(0.98); }
+
+        /* STATS */
+        .stats-section { background: var(--forest-green); color: var(--white); padding: 80px 8%; text-align: center; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1100px; margin: 0 auto; }
+        .stat-item h2 { font-size: 3rem; margin-bottom: 5px; }
+
+        /* INFO */
+        .moodli-info { background: var(--soft-barrier); padding: 80px 8%; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .info-img img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 45px -10px rgba(38, 75, 41, 0.15);
+            transition: transform 0.6s var(--ease-smooth);
+        }
+        .info-img img:hover { transform: scale(1.02); }
+
+        /* CAROUSEL */
+        .carousel-section { padding: 80px 8%; }
+        .carousel-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; }
+        .carousel-header a {
+            color: var(--forest-green);
+            font-weight: bold;
+            text-decoration: none;
+            position: relative;
+        }
+        .carousel-header a::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: -3px;
+            width: 0; height: 2px;
+            background: var(--forest-green);
+            transition: width 0.35s var(--ease-smooth);
+        }
+        .carousel-header a:hover::after { width: 100%; }
+        .carousel-wrap { position: relative; }
+        .carousel-container { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 20px; scrollbar-width: none; scroll-behavior: smooth; }
+        .carousel-container::-webkit-scrollbar { display: none; }
+        .product-card-sm {
+            min-width: 280px;
+            scroll-snap-align: start;
+            background: var(--white);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            transition: transform 0.5s var(--ease-smooth), box-shadow 0.5s var(--ease-smooth);
+        }
+        .product-card-sm:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(38, 75, 41, 0.15);
+        }
+        .product-card-sm .img-holder { overflow: hidden; border-radius: 8px; margin-bottom: 10px; }
+        .product-card-sm img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; transition: transform 0.6s var(--ease-smooth); }
+        .product-card-sm:hover img { transform: scale(1.1); }
+        .product-card-sm p { font-weight: 600; }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 40%;
+            transform: translateY(-50%);
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: var(--white);
+            border: none;
+            box-shadow: 0 8px 20px rgba(38,75,41,0.15);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            color: var(--forest-green);
+            transition: transform 0.3s var(--ease-smooth), background 0.3s ease;
+            z-index: 5;
+        }
+        .carousel-arrow:hover { transform: translateY(-50%) scale(1.1); background: var(--forest-green); color: var(--white); }
+        .carousel-arrow.left { left: -10px; }
+        .carousel-arrow.right { right: -10px; }
+
+        /* FOOTER */
+        footer { background: var(--forest-green); color: var(--pale-cream); padding: 40px 8% 20px; margin-top: 60px; }
+        footer .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 20px; max-width: 1100px; margin: 0 auto; }
+        footer .footer-col a { color: var(--pale-cream); text-decoration: none; display: block; font-size: 0.8rem; opacity: 0.8; margin-bottom: 5px; transition: opacity 0.3s ease, transform 0.3s ease; }
+        footer .footer-col a:hover { opacity: 1; transform: translateX(3px); }
+        footer .footer-bottom { margin-top: 30px; opacity: 0.4; font-size: 0.7rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+        }
+
+        /* MOBILE */
+        @media (max-width: 850px) {
+            header { padding: 15px 8%; }
+            header.scrolled { padding: 12px 8%; }
+            .hamburger { display: flex; }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 70%;
+                background: var(--pale-cream);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.5s var(--ease-smooth);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            }
+            .nav-links.active { right: 0; }
+
+            .hero, .moodli-info { grid-template-columns: 1fr; text-align: center; padding: 40px 5%; }
+            .hero-text p { margin: 0 auto; }
+            .hero-text h1 { font-size: 1.8rem; }
+            .hero-image { order: -1; }
+
+            .stats-section { padding: 50px 5%; }
+            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+            footer .footer-grid { grid-template-columns: 1fr 1fr; }
+            .carousel-arrow { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="site-header">
+        <a href="index.html" class="logo"><img src="https://i.imgur.com/90g68Rc.jpg" alt="Moodli"></a>
+        <div class="hamburger" id="hamburger" role="button" aria-label="Toggle menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-text reveal-up">
+                <h1>Molding Moods Into Tiny Comforts</h1>
+                <p>Moodli creates handmade keychains inspired by emotions, moments, and creativity. Each piece is thoughtfully crafted, uniquely shaped, and made to remind you that your feelings matter.</p>
+                <a href="products.html" class="btn btn-primary">Shop Collection</a>
+            </div>
+            <div class="hero-image reveal-scale">
+                <img src="https://i.imgur.com/zGclnPF.jpg" alt="Hero Image">
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-item reveal-up"><h2 class="counter" data-target="146">0</h2><p>Active Customers</p></div>
+                <div class="stat-item reveal-up"><h2 class="counter" data-target="150">0</h2><p>Products Sold</p></div>
+                <div class="stat-item reveal-up"><h2 class="counter" data-target="2">0</h2><p>Brand Collabs</p></div>
+            </div>
+        </section>
+
+        <section class="moodli-info">
+            <div class="info-text reveal-left">
+                <h2>What is Moodli?</h2>
+                <p>Moodli stands for <strong>"Mood Little,"</strong> representing small emotions. We believe even the tiniest accessory can tell a big story.</p>
+                <a href="about.html" class="btn btn-primary">Learn More</a>
+            </div>
+            <div class="info-img reveal-right"><img src="https://i.imgur.com/z5sefjG.jpg" alt="About"></div>
+        </section>
+
+        <section class="carousel-section">
+            <div class="carousel-header reveal-up"><h2>Featured</h2><a href="products.html">View More</a></div>
+            <div class="carousel-wrap">
+                <button class="carousel-arrow left" id="carLeft" aria-label="Scroll left">&#8592;</button>
+                <div class="carousel-container" id="carousel">
+                    <div class="product-card-sm"><div class="img-holder"><img src="https://i.imgur.com/GYWHG5g.jpg" alt="Chicks"></div><p>Chicks</p></div>
+                    <div class="product-card-sm"><div class="img-holder"><img src="https://i.imgur.com/qbZKqNa.jpg" alt="Pink Pig"></div><p>Pink Pig</p></div>
+                    <div class="product-card-sm"><div class="img-holder"><img src="https://i.imgur.com/K8xfDkq.jpg" alt="Froggy"></div><p>Froggy</p></div>
+                    <div class="product-card-sm"><div class="img-holder"><img src="https://i.imgur.com/q09Adkq.jpg" alt="Pig Green"></div><p>Pig Green</p></div>
+                    <div class="product-card-sm"><div class="img-holder"><img src="https://i.imgur.com/kCB24Uz.jpg" alt="Bunny"></div><p>Bunny</p></div>
+                </div>
+                <button class="carousel-arrow right" id="carRight" aria-label="Scroll right">&#8594;</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>Moodli</h3>
+                <p>Handmade keychains celebrating self-expression.</p>
+            </div>
+            <div class="footer-col">
+                <h5>Get in Touch</h5>
+                <a href="mailto:moodlicore@gmail.com">moodlicore@gmail.com</a>
+                <p>0936-943-3099</p>
+            </div>
+            <div class="footer-col">
+                <h5>Connect</h5>
+                <a href="https://www.instagram.com/moodlicore/" target="_blank">Instagram</a>
+                <a href="https://www.facebook.com/profile.php?id=61581735011163" target="_blank">Facebook</a>
+                <a href="https://www.tiktok.com/@moodlicore?_r=1&_t=ZS-9323zbw775u" target="_blank">TikTok</a>
+            </div>
+            <div class="footer-col">
+                <h5>Legal</h5>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms</a>
+                <a href="#">Transparency</a>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2025 Moodli. All Rights Reserved.</div>
+    </footer>
+
+    <!-- GSAP CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- FALLBACK & CORE LOGIC SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Sticky Header
+            const header = document.getElementById('site-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 30) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // 2. Mobile Hamburger Menu Toggle
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('nav-links');
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => {
+                    const isActive = navLinks.classList.toggle('active');
+                    hamburger.classList.toggle('active');
+                    hamburger.setAttribute('aria-expanded', isActive);
+                });
+            }
+
+            // 3. Carousel Buttons
+            const carousel = document.getElementById('carousel');
+            const btnLeft = document.getElementById('carLeft');
+            const btnRight = document.getElementById('carRight');
+
+            if (carousel && btnLeft && btnRight) {
+                btnLeft.addEventListener('click', () => {
+                    carousel.scrollBy({ left: -300, behavior: 'smooth' });
+                });
+                btnRight.addEventListener('click', () => {
+                    carousel.scrollBy({ left: 300, behavior: 'smooth' });
+                });
+            }
+
+            // 4. Scroll Reveal Animations (Intersection Observer + GSAP)
+            const revealElements = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .reveal-scale');
+            
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            
+                            // Animated Counters
+                            const counters = entry.target.querySelectorAll('.counter');
+                            counters.forEach(counter => {
+                                const target = +counter.getAttribute('data-target');
+                                let count = 0;
+                                const speed = target / 50;
+                                const updateCount = () => {
+                                    count += speed;
+                                    if (count < target) {
+                                        counter.innerText = Math.ceil(count);
+                                        setTimeout(updateCount, 30);
+                                    } else {
+                                        counter.innerText = target;
+                                    }
+                                };
+                                updateCount();
+                            });
+                            
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.15 });
+
+                revealElements.forEach(el => observer.observe(el));
+            } else {
+                revealElements.forEach(el => el.classList.add('is-visible'));
+            }
+        });
+    </script>
     <script src="site.js"></script>
 </body>
 </html>
