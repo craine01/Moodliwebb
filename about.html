@@ -1,4 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About | Moodli</title>
+<style>
+:root {
+    --forest-green: #264B29;
+    --forest-green-light: #35663a;
+    --pale-cream: #FFF9E1;
+    --white: #ffffff;
+    --soft-barrier: #fff5f0;
+    --journey-bg: #fdf5e6;
+    --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
 
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+html { scroll-behavior: smooth; }
+body { background-color: var(--pale-cream); color: var(--forest-green); line-height: 1.6; overflow-x: hidden; }
 
-<
-</
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--forest-green);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* ANIMATION UTILITY CLASSES */
+.reveal-up, .reveal-left, .reveal-right, .reveal-scale {
+    opacity: 0;
+    transition: transform 0.8s var(--ease-smooth), opacity 0.8s var(--ease-smooth);
+    will-change: transform, opacity;
+}
+.reveal-up { transform: translateY(40px); }
+.reveal-left { transform: translateX(-40px); }
+.reveal-right { transform: translateX(40px); }
+.reveal-scale { transform: scale(0.9); }
+
+.reveal-up.is-visible,
+.reveal-left.is-visible,
+.reveal-right.is-visible,
+.reveal-scale.is-visible {
+    opacity: 1;
+    transform: translate(0) scale(1);
+}
+
+/* Header */
+header {
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 249, 225, 0.9);
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+    transition: box-shadow 0.4s var(--ease-smooth), backdrop-filter 0.4s var(--ease-smooth), padding 0.4s var(--ease-smooth);
+}
+header.scrolled { box-shadow: 0 8px 30px rgba(38,75,41,0.08); backdrop-filter: blur(12px); padding: 14px 5%; }
+.logo img { height: 40px; transition: transform 0.4s var(--ease-smooth); }
+.logo:hover img { transform: scale(1.05) rotate(-2deg); }
+.nav-links { display: flex; list-style: none; gap: 25px; }
+.nav-links a { text-decoration: none; color: var(--forest-green); font-weight: 500; font-size: 0.9rem; position: relative; padding-bottom: 4px; }
+.nav-links a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 2px; background: var(--forest-green); transition: width 0.35s var(--ease-smooth); }
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+.nav-links a.active { font-weight: 700; }
+
+/* Hamburger */
+.hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; z-index: 1200; }
+.hamburger span { display: block; width: 25px; height: 3px; background: var(--forest-green); border-radius: 3px; transition: transform 0.4s var(--ease-smooth), opacity 0.3s ease; }
+.hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* Sections */
+.container { padding: 60px 8%; }
+.barrier-section { background: var(--soft-barrier); padding: 80px 8%; margin: 40px 0; border-radius: 40px; }
+.flex-row { display: flex; align-items: center; gap: 60px; max-width: 1100px; margin: 0 auto; }
+.flex-row img {
+    width: 32%;
+    border-radius: 25px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    box-shadow: 0 20px 45px -12px rgba(38,75,41,0.2);
+    transition: transform 0.6s var(--ease-smooth);
+}
+.flex-row img:hover { transform: scale(1.03) rotate(-0.5deg); }
+.flex-row div { flex: 1; }
+.flex-row h2 { font-size: 2.2rem; margin-bottom: 20px; }
+.flex-row.reverse { flex-direction: row-reverse; }
+
+/* Team */
+.team-section { padding: 80px 8%; text-align: center; }
+.team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin: 40px auto 0; }
+.team-member {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+    transition: transform 0.5s var(--ease-smooth), box-shadow 0.5s var(--ease-smooth), opacity 0.8s var(--ease-smooth);
+}
+.team-member:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(38,75,41,0.12); }
+.team-member img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.5s var(--ease-smooth); }
+.team-member:hover img { transform: scale(1.06); }
+.team-member h4 { font-size: 1.2rem; margin-bottom: 5px; color: var(--forest-green); }
+.team-member p { font-size: 0.85rem; color: #666; font-style: italic; }
+
+/* Journey */
+.journey-section {
+    background: var(--journey-bg);
+    padding: 80px 8%;
+    text-align: center;
+    border-radius: 40px;
+    margin: 40px 5%;
+    position: relative;
+    overflow: hidden;
+}
+.journey-section::before {
+    content: '';
+    position: absolute;
+    width: 340px; height: 340px;
+    background: radial-gradient(circle, rgba(38,75,41,0.06) 0%, transparent 70%);
+    top: -120px; right: -100px;
+    border-radius: 50%;
+}
+.journey-section h2 { font-size: 2.5rem; margin-bottom: 15px; position: relative; }
+.journey-section p { position: relative; }
+
+/* Footer */
+footer { background: var(--forest-green); color: var(--pale-cream); padding: 40px 8% 20px; margin-top: 60px; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 20px; max-width: 1100px; margin: 0 auto; }
+.footer-col a { color: var(--pale-cream); text-decoration: none; display: block; font-size: 0.8rem; opacity: 0.8; margin-bottom: 5px; transition: opacity 0.3s ease, transform 0.3s ease; }
+.footer-col a:hover { opacity: 1; transform: translateX(3px); }
+.footer-bottom { margin-top: 30px; opacity: 0.4; font-size: 0.7rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* Mobile */
+@media (max-width: 850px) {
+    header { padding: 15px 8%; }
+    header.scrolled { padding: 12px 8%; }
+    .hamburger { display: flex; }
+    .nav-links {
+        position: fixed; top: 0; right: -100%; height: 100vh; width: 70%;
+        background: var(--pale-cream); flex-direction: column; justify-content: center; align-items: center;
+        transition: right 0.5s var(--ease-smooth); box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+    }
+    .nav-links.active { right: 0; }
+    .flex-row { flex-direction: column !important; text-align: center; gap: 30px; }
+    .flex-row img { width: 80%; max-width: 300px; }
+    .flex-row h2 { font-size: 1.8rem; }
+    .team-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+
+<body>
+<header id="site-header">
+    <a href="index.html" class="logo"><img src="https://i.imgur.com/90g68Rc.jpg" alt="Moodli"></a>
+    <div class="hamburger" id="hamburger" role="button" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></div>
+    <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="community.html">Community</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</header>
+
+<main>
+<!-- Mission -->
+<section class="barrier-section container">
+    <div class="flex-row">
+        <img class="reveal-left" src="https://i.imgur.com/QqB7E7S.jpg" alt="Mission">
+        <div class="reveal-right">
+            <h2>Our Mission</h2>
+            <p>To empower individuals to express their unique personalities and emotions through beautifully artworks. We believe every person has a story to tell, and our mission is to help them share it.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Vision -->
+<section class="container">
+    <div class="flex-row reverse">
+        <img class="reveal-right" src="https://i.imgur.com/s3tzDgW.jpg" alt="Vision">
+        <div class="reveal-left">
+            <h2>Our Vision</h2>
+            <p>To become the leading brand for handmade keychains that inspire self-expression and creativity. We envision a world where everyone feels confident to showcase their individuality through meaningful accessories.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Values -->
+<section class="barrier-section container">
+    <div class="flex-row">
+        <img class="reveal-left" src="https://i.imgur.com/7D3Cq8p.jpg" alt="Values">
+        <div class="reveal-right">
+            <h2>Our Values</h2>
+            <p><strong>Authenticity:</strong> Staying true to our craft and your emotions.<br><br>
+               <strong>Quality:</strong> Every piece is handmade with intense care and high-quality materials to ensure it lasts as your long-term companion.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Team -->
+<section class="team-section">
+    <h2 class="reveal-up">Meet the Creators</h2>
+    <div class="team-grid" data-stagger-group>
+        <div class="team-member reveal-up">
+            <img src="https://i.imgur.com/uXlBzjs.jpg" alt="Kent Loria Reyes">
+            <h4>KENT LORIA REYES</h4>
+            <p>Founder & Lead Artist</p>
+            <p style="font-style: normal; margin-top: 10px; font-size: 0.8rem;">The visionary behind Moodli and the artist behind the cute keychain designs.</p>
+        </div>
+        <div class="team-member reveal-up">
+            <img src="https://i.imgur.com/pyPCKu2.jpg" alt="Dhymple Norshe Carandang">
+            <h4>DHYMPLE NORSHE CARANDANG</h4>
+            <p>Co-Artist</p>
+            <p style="font-style: normal; margin-top: 10px; font-size: 0.8rem;">The creative partner helping bring every little mood to life through craftsmanship.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Journey -->
+<section class="journey-section reveal-scale">
+    <h2>Join Our Journey</h2>
+    <p>Follow us as we continue to grow and create more little moods for you to wear.</p>
+</section>
+</main>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-grid">
+        <div class="footer-col">
+            <h3>Moodli</h3>
+            <p>Handmade keychains celebrating self-expression.</p>
+        </div>
+        <div class="footer-col">
+            <h5>Get in Touch</h5>
+            <a href="mailto:moodlicore@gmail.com">moodlicore@gmail.com</a>
+            <p>0936-943-3099</p>
+        </div>
+        <div class="footer-col">
+            <h5>Connect</h5>
+            <a href="https://www.instagram.com/moodlicore/" target="_blank">Instagram</a>
+            <a href="https://www.facebook.com/profile.php?id=61581735011163" target="_blank">Facebook</a>
+            <a href="https://www.tiktok.com/@moodlicore?_r=1&_t=ZS-9323zbw775u" target="_blank">TikTok</a>
+        </div>
+        <div class="footer-col">
+            <h5>Legal</h5>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms</a>
+            <a href="#">Transparency</a>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2025 Moodli. All Rights Reserved.</div>
+</footer>
+
+<!-- ALL JS NEEDED FOR THIS PAGE'S ANIMATIONS — no external site.js required -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Sticky Header
+        const header = document.getElementById('site-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 30) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // 2. Mobile Hamburger Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', () => {
+                const isActive = navLinks.classList.toggle('active');
+                hamburger.classList.toggle('active');
+                hamburger.setAttribute('aria-expanded', isActive);
+            });
+        }
+
+        // 3. Scroll Reveal Animations (Intersection Observer)
+        const revealElements = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .reveal-scale');
+
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Stagger items that live inside a [data-stagger-group] container
+                        const staggerParent = entry.target.closest('[data-stagger-group]');
+                        if (staggerParent) {
+                            const siblings = Array.from(staggerParent.children);
+                            const idx = siblings.indexOf(entry.target);
+                            entry.target.style.transitionDelay = (idx * 0.12) + 's';
+                        }
+
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            revealElements.forEach(el => observer.observe(el));
+        } else {
+            revealElements.forEach(el => el.classList.add('is-visible'));
+        }
+    });
+</script>
+</body>
+</html>
